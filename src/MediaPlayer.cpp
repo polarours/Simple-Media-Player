@@ -15,6 +15,11 @@ extern "C" {
 #include <libavutil/log.h>
 }
 
+/**
+ * @brief 构造函数
+ *
+ * 该函数是 MediaPlayer 类的构造函数，负责初始化媒体播放器。
+ */
 MediaPlayer::MediaPlayer(QObject *parent)
     : QObject(parent)
     , formatContext(nullptr)
@@ -31,6 +36,11 @@ MediaPlayer::MediaPlayer(QObject *parent)
     av_log_set_level(AV_LOG_QUIET);
 }
 
+/**
+ * @brief 析构函数
+ *
+ * 该函数是 MediaPlayer 类的析构函数，负责清理媒体播放器的资源。
+ */
 MediaPlayer::~MediaPlayer()
 {
     stop();
@@ -48,7 +58,15 @@ MediaPlayer::~MediaPlayer()
     }
 }
 
-bool MediaPlayer::loadMedia(const QString &filePath)
+/**
+ * @brief 加载媒体文件
+ *
+ * 该函数用于加载指定的媒体文件。
+ *
+ * @param filePath 媒体文件的路径
+ * @return 加载成功返回 true，否则返回 false
+ */
+bool MediaPlayer::loadMedia(const QString& filePath)
 {
     // 关闭媒体文件
     if (formatContext) {
@@ -133,6 +151,11 @@ bool MediaPlayer::loadMedia(const QString &filePath)
     return true;
 }
 
+/**
+ * @brief 播放媒体文件
+ *
+ * 该函数用于播放媒体文件。
+ */
 void MediaPlayer::play()
 {
     if (!formatContext)
@@ -143,6 +166,11 @@ void MediaPlayer::play()
     emit stateChanged(1); // Playing
 }
 
+/**
+ * @brief 暂停媒体文件
+ *
+ * 该函数用于暂停媒体文件。
+ */
 void MediaPlayer::pause()
 {
     if (!playing)
@@ -156,6 +184,11 @@ void MediaPlayer::pause()
     }
 }
 
+/**
+ * @brief 停止媒体文件
+ *
+ * 该函数用于停止媒体文件。
+ */
 void MediaPlayer::stop()
 {
     playing = false;
@@ -163,11 +196,23 @@ void MediaPlayer::stop()
     emit stateChanged(0); // Stopped
 }
 
+/**
+ * @brief 获取媒体文件是否正在播放
+ *
+ * 该函数用于获取媒体文件是否正在播放。
+ *
+ * @return 正在播放返回 true，否则返回 false
+ */
 bool MediaPlayer::isPlaying() const
 {
     return playing && !paused;
 }
 
+/**
+ * @brief 获取媒体文件的总时长
+ *
+ * 该函数用于获取媒体文件的总时长。
+ */
 qint64 MediaPlayer::duration() const
 {
     if (!formatContext)
@@ -176,11 +221,23 @@ qint64 MediaPlayer::duration() const
     return formatContext->duration / 1000;
 }
 
+/**
+ * @brief 获取当前播放位置
+ *
+ * 该函数用于获取当前播放位置。
+ */
 qint64 MediaPlayer::position() const
 {
     return 0;
 }
 
+/**
+ * @brief 设置当前播放位置
+ *
+ * @param position 要设置的播放位置
+ *
+ * 该函数用于设置当前播放位置。
+ */
 void MediaPlayer::setPosition(qint64 position)
 {
     Q_UNUSED(position);

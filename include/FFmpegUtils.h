@@ -13,10 +13,20 @@
 
 #include <QString>
 
-class FFmpegHelper
+class FFmpegUtils
 {
 public:
-    static QString getErrorString(int error);
+    /**
+     * @brief 获取错误信息
+     *
+     * @param errorCode 错误码
+     * @return QString 错误信息
+     */
+    static QString getErrorMessage(int errorCode);
+
+    /**
+     *  @brief 初始化 FFmpeg
+     */
     static void initializeFFmpeg();
 };
 

@@ -10,20 +10,33 @@
 
 #include <QApplication>
 #include "MainWindow.h"
-#include "FFmpegHelper.h"
+#include "FFmpegUtils.h"
 
+/**
+ * @brief 程序入口。
+ *
+ * @param argc 参数个数
+ * @param argv 参数列表
+ * @return  int 程序退出码
+ *
+ * 该函数是程序的入口函数，负责初始化程序环境，创建主窗口，并启动程序。
+ */
 int main(int argc, char *argv[])
 {
+    // 创建QApplication对象
     QApplication app(argc, argv);
 
+    // 设置应用程序信息
     app.setApplicationName("Learn Media Player");
     app.setApplicationVersion("1.0");
     app.setOrganizationName("Simple-Media-Player");
 
-    FFmpegHelper::initializeFFmpeg();
+    // 初始
+    FFmpegUtils::initializeFFmpeg();
 
+    // 创建主窗口
     MainWindow window;
     window.show();
-    
+
     return app.exec();
 }

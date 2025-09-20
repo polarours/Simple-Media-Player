@@ -39,7 +39,7 @@ set(SOURCES
         src/MainWindow.cpp
         src/PlayerController.cpp
         src/MediaPlayer.cpp
-        src/FFmpegHelper.cpp
+        src/FFmpegUtils.cpp
 )
 
 # 头文件
@@ -47,7 +47,7 @@ set(HEADERS
         include/MainWindow.h
         include/PlayerController.h
         include/MediaPlayer.h
-        include/FFmpegHelper.h
+        include/FFmpegUtils.h
 )
 
 # 创建可执行文件

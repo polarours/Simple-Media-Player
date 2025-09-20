@@ -19,9 +19,16 @@
 
 #include <QVideoWidget>
 
+/**
+ * @brief MainWindow 的构造函数。
+ *
+ * @param parent  父窗口。
+ *
+ * 该函数是 MainWindow 的构造函数，负责创建主窗口的 UI，处理主窗口的信号和槽。
+ */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , playerController(new PlayerController(this))
+    , playerController(new PlayerController(this)) ///< 创建播放器控制器
 {
     setupUI();
     setupConnections();
@@ -29,11 +36,21 @@ MainWindow::MainWindow(QWidget *parent)
     resize(800, 600);
 }
 
+/**
+ * @brief MainWindow 的析构函数。
+ *
+ * 该函数是 MainWindow 的析构函数，负责销毁 MainWindow 对象。
+ */
 MainWindow::~MainWindow()
 {
-
+    // 释放播放器控制器
 }
 
+/**
+ * @brief 设置 UI。
+ *
+ * 该函数负责创建 UI，并设置 UI 的布局。
+ */
 void MainWindow::setupUI()
 {
     // Central widget
@@ -61,9 +78,9 @@ void MainWindow::setupUI()
     timeLabel = new QLabel(tr("00:00 / 00:00"), this);
 
     // Layouts
-    QVBoxLayout *mainLayout = new QVBoxLayout;
-    QHBoxLayout *controlLayout = new QHBoxLayout;
-    QHBoxLayout *sliderLayout = new QHBoxLayout;
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    QHBoxLayout* controlLayout = new QHBoxLayout;
+    QHBoxLayout* sliderLayout = new QHBoxLayout;
 
     // Assemble layouts
     mainLayout->addWidget(videoWidget);
@@ -81,15 +98,15 @@ void MainWindow::setupUI()
     centralWidget->setLayout(mainLayout);
 
     // Create menu bar
-    QMenu *fileMenu = menuBar()->addMenu(tr("&File"));
-    QAction *openAction = fileMenu->addAction(tr("&Open..."));
+    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
+    QAction* openAction = fileMenu->addAction(tr("&Open..."));
     openAction->setShortcut(QKeySequence::Open);
     fileMenu->addSeparator();
-    QAction *quitAction = fileMenu->addAction(tr("&Quit"));
+    QAction* quitAction = fileMenu->addAction(tr("&Quit"));
     quitAction->setShortcut(QKeySequence::Quit);
 
     // Create toolbar
-    QToolBar *toolbar = addToolBar(tr("Playback"));
+    QToolBar* toolbar = addToolBar(tr("Playback"));
     toolbar->addAction(openAction);
     toolbar->addWidget(playButton);
     toolbar->addWidget(stopButton);
@@ -99,6 +116,11 @@ void MainWindow::setupUI()
     connect(quitAction, &QAction::triggered, qApp, &QApplication::quit);
 }
 
+/**
+ * @brief 设置连接。
+ *
+ * 该函数负责设置各个控件之间的连接。
+ */
 void MainWindow::setupConnections()
 {
     // Button connections
@@ -115,6 +137,11 @@ void MainWindow::setupConnections()
     connect(playerController, &PlayerController::positionChanged, this, &MainWindow::positionChanged);
 }
 
+/**
+ * @brief 打开文件。
+ *
+ * 该函数负责打开文件，并设置媒体。
+ */
 void MainWindow::openFile()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Media File"), QDir::homePath());
@@ -124,6 +151,11 @@ void MainWindow::openFile()
     }
 }
 
+/**
+ * @brief 播放/暂停。
+ *
+ * 该函数负责播放/暂停媒体。
+ */
 void MainWindow::playPause()
 {
     if (playerController->isPlaying()) {
@@ -135,22 +167,42 @@ void MainWindow::playPause()
     }
 }
 
+/**
+ * @brief 停止播放。
+ *
+ * 该函数负责停止播放媒体。
+ */
 void MainWindow::stop()
 {
     playerController->stop();
     playButton->setText(tr("Play"));
 }
 
+/**
+ * @brief 跳转到指定位置。
+ *
+ * @param position  播放位置。
+ */
 void MainWindow::seek(int position)
 {
     playerController->setPosition(position);
 }
 
+/**
+ * @brief 媒体时长改变。
+ *
+ * @param duration  媒体时长。
+ */
 void MainWindow::durationChanged(qint64 duration)
 {
     seekSlider->setRange(0, duration);
 }
 
+/**
+ * @brief 播放位置改变。
+ *
+ * @param position  播放位置。
+ */
 void MainWindow::positionChanged(qint64 position)
 {
     if (!seekSlider->isSliderDown()) {
