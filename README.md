@@ -25,7 +25,7 @@ Simple-Media-Player 是一个使用 C++ 编写的本地媒体播放器项目，�
 1. **MainWindow** - 主窗口类，负责管理用户界面元素和交互逻辑
 2. **PlayerController** - 播放控制器，协调播放逻辑
 3. **MediaPlayer** - 媒体播放核心类，集成 FFmpeg 进行音视频解码
-4. **FFmpegUtils** - FFmpeg 工具类，提供 FFmpeg 初始化和错误处理功能
+4. **Utils** - 工具类，提供初始化和错误处理功能
 
 ### 技术栈
 
@@ -79,19 +79,30 @@ make -j$(nproc)
 
 ```
 Simple-Media-Player/
-├── CMakeLists.txt              # CMake 构建配置文件
-├── include/                    # 头文件目录
-│   ├── MainWindow.h            # 主窗口类头文件
-│   ├── PlayerController.h      # 播放控制器类头文件
-│   ├── MediaPlayer.h           # 媒体播放器类头文件
-│   └── FFmpegUtils.h           # FFmpeg 工具类头文件
-├── src/                        # 源文件目录
-│   ├── main.cpp                # 程序入口文件
-│   ├── MainWindow.cpp          # 主窗口类实现
-│   ├── PlayerController.cpp    # 播放控制器类实现
-│   ├── MediaPlayer.cpp         # 媒体播放器类实现
-│   └── FFmpegUtils.cpp         # FFmpeg 工具类实现
-└── README.md                   # 项目说明文档
+├── CMakeLists.txt                     # CMake 构建配置文件
+├── include/                           # 头文件目录
+│   └── Simple-Media-Player/           # 主包含目录
+│       ├── core/                      # 核心模块
+│       │   └── MediaPlayer.h          # 媒体播放器类头文件
+│       └── modules/                   # 模块目录
+│           ├── player/                # 播放器模块
+│           │   └── PlayerController.h # 播放控制器类头文件
+│           ├── ui/                    # 用户界面模块
+│           │   └── MainWindow.h       # 主窗口类头文件
+│           └── utils/                 # 工具模块
+│               └── Utils.h            # 工具类头文件
+├── src/                               # 源文件目录
+│   ├── core/                          # 核心模块实现
+│   │   └── MediaPlayer.cpp            # 媒体播放器类实现
+│   ├── main.cpp                       # 程序入口文件
+│   └── modules/                       # 模块实现目录
+│       ├── player/                    # 播放器模块实现
+│       │   └── PlayerController.cpp   # 播放控制器类实现
+│       ├── ui/                        # 用户界面模块实现
+│       │   └── MainWindow.cpp         # 主窗口类实现
+│       └── utils/                     # 工具模块实现
+│           └── Utils.cpp              # 工具类实现
+└── README.md                          # 项目说明文档
 ```
 
 ## 许可证
