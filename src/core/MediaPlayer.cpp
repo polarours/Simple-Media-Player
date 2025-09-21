@@ -8,7 +8,7 @@
  * @date   : 2025/08/29
  ********************************************************************************/
 
-#include "MediaPlayer.h"
+#include "../../include/Simple-Media-Player/core/MediaPlayer.h"
 #include <QDebug>
 
 extern "C" {
@@ -20,20 +20,26 @@ extern "C" {
  *
  * 该函数是 MediaPlayer 类的构造函数，负责初始化媒体播放器。
  */
-MediaPlayer::MediaPlayer(QObject *parent)
+MediaPlayer::MediaPlayer(QObject* parent)
     : QObject(parent)
-    , formatContext(nullptr)
-    , videoCodecContext(nullptr)
-    , audioCodecContext(nullptr)
-    , videoStream(nullptr)
-    , audioStream(nullptr)
-    , videoStreamIndex(-1)
-    , audioStreamIndex(-1)
-    , playing(false)
-    , paused(false)
+    , playing(false)             ///< 媒体是否正在播放
+    , paused(false)              ///< 媒体是否处于暂停状态
+    , currentPosition(0)         ///< 媒体当前播放位置
+    , videoStreamIndex(-1)       ///< 视频流索引
+    , audioStreamIndex(-1)       ///< 音频流索引
+    , videoStream(nullptr)       ///< 视频流
+    , audioStream(nullptr)       ///< 音频流
+    , formatContext(nullptr)     ///< 媒体文件格式上下文
+    , videoCodecContext(nullptr) ///< 视频解码器上下文
+    , audioCodecContext(nullptr) ///< 音频解码器上下文
 {
     // 设置FFmpeg日志级别
     av_log_set_level(AV_LOG_QUIET);
+
+    positionTimer = new QTimer(this);
+    connect(positionTimer, &QTimer::timeout, [this]() {
+        emit positionChanged(currentPosition);
+    });
 }
 
 /**
@@ -45,14 +51,17 @@ MediaPlayer::~MediaPlayer()
 {
     stop();
 
+    // 清理视频解码器上下文
     if (videoCodecContext) {
         avcodec_free_context(&videoCodecContext);
     }
 
+    // 清理音频解码器上下文
     if (audioCodecContext) {
         avcodec_free_context(&audioCodecContext);
     }
 
+    // 清理媒体文件格式上下文
     if (formatContext) {
         avformat_close_input(&formatContext);
     }
@@ -73,16 +82,20 @@ bool MediaPlayer::loadMedia(const QString& filePath)
         avformat_close_input(&formatContext);
     }
 
-    // 打开媒体文件
+    // 查看媒体文件是否存在
     if (avformat_open_input(&formatContext, filePath.toUtf8().constData(), nullptr, nullptr) < 0) {
         qDebug() << "Failed to open media file:" << filePath;
         return false;
+    } else {
+        qDebug() << "Media file opened successfully:" << filePath;
     }
 
-    // 获取流信息
+    // 是否能读取媒体文件信息
     if (avformat_find_stream_info(formatContext, nullptr) < 0) {
         qDebug() << "Failed to retrieve stream information";
         return false;
+    } else {
+        qDebug() << "Stream information retrieved successfully";
     }
 
     // 找到视频和音频流
@@ -90,10 +103,11 @@ bool MediaPlayer::loadMedia(const QString& filePath)
     audioStreamIndex = av_find_best_stream(formatContext, AVMEDIA_TYPE_AUDIO, -1, -1, nullptr, 0);
 
     if (videoStreamIndex >= 0) {
+        // 获取视频流信息
         videoStream = formatContext->streams[videoStreamIndex];
         
         // 找到视频解码器
-        const AVCodec *videoCodec = avcodec_find_decoder(videoStream->codecpar->codec_id);
+        const AVCodec* videoCodec = avcodec_find_decoder(videoStream->codecpar->codec_id);
         if (!videoCodec) {
             qDebug() << "Unsupported video codec";
             return false;
@@ -158,11 +172,11 @@ bool MediaPlayer::loadMedia(const QString& filePath)
  */
 void MediaPlayer::play()
 {
-    if (!formatContext)
-        return;
+    if (!formatContext) return;
 
     playing = true;
     paused = false;
+    positionTimer->start(100);
     emit stateChanged(1); // Playing
 }
 
@@ -173,13 +187,14 @@ void MediaPlayer::play()
  */
 void MediaPlayer::pause()
 {
-    if (!playing)
-        return;
+    if (!playing) return;
 
     paused = !paused;
     if (paused) {
+        positionTimer->stop();
         emit stateChanged(2); // Paused
     } else {
+        positionTimer->start(100);
         emit stateChanged(1); // Playing
     }
 }
@@ -193,6 +208,9 @@ void MediaPlayer::stop()
 {
     playing = false;
     paused = false;
+    positionTimer->stop();
+    currentPosition = 0;
+    emit positionChanged(currentPosition);
     emit stateChanged(0); // Stopped
 }
 
@@ -215,8 +233,7 @@ bool MediaPlayer::isPlaying() const
  */
 qint64 MediaPlayer::duration() const
 {
-    if (!formatContext)
-        return 0;
+    if (!formatContext) return 0;
 
     return formatContext->duration / 1000;
 }
@@ -228,7 +245,15 @@ qint64 MediaPlayer::duration() const
  */
 qint64 MediaPlayer::position() const
 {
-    return 0;
+    return currentPosition;
+}
+
+void MediaPlayer::updatePosition(qint64 position)
+{
+    if (playing && !paused) {
+        currentPosition += 100;
+        emit positionChanged(currentPosition);
+    }
 }
 
 /**
@@ -240,5 +265,7 @@ qint64 MediaPlayer::position() const
  */
 void MediaPlayer::setPosition(qint64 position)
 {
-    Q_UNUSED(position);
+    if (!formatContext) return;
+    currentPosition = position;
+    emit positionChanged(currentPosition);
 }

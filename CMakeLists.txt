@@ -33,21 +33,21 @@ link_directories(${AVUTIL_LIBRARY_DIRS})
 link_directories(${SWSCALE_LIBRARY_DIRS})
 link_directories(${SDL2_LIBRARY_DIRS})
 
-# 源文件
-set(SOURCES
-    src/main.cpp
-        src/MainWindow.cpp
-        src/PlayerController.cpp
-        src/MediaPlayer.cpp
-        src/FFmpegUtils.cpp
-)
-
 # 头文件
 set(HEADERS
-        include/MainWindow.h
-        include/PlayerController.h
-        include/MediaPlayer.h
-        include/FFmpegUtils.h
+        include/Simple-Media-Player/core/MediaPlayer.h
+        include/Simple-Media-Player/modules/player/PlayerController.h
+        include/Simple-Media-Player/modules/ui/MainWindow.h
+        include/Simple-Media-Player/modules/utils/Utils.h
+)
+
+# 源文件
+set(SOURCES
+        src/main.cpp
+        src/core/MediaPlayer.cpp
+        src/modules/player/PlayerController.cpp
+        src/modules/ui/MainWindow.cpp
+        src/modules/utils/Utils.cpp
 )
 
 # 创建可执行文件

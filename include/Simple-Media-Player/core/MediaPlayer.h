@@ -13,6 +13,7 @@
 
 #include <QObject>
 #include <QString>
+#include <QTimer>
 
 // 前向声明 FFmpeg 的头文件
 extern "C" {
@@ -87,6 +88,8 @@ public:
      */
     qint64 position() const;
 
+    void updatePosition(qint64 position);
+
     /**
      * @brief 设置媒体文件的当前播放位置
      *
@@ -122,6 +125,10 @@ private:
     // --- 播放状态 --- //
     bool playing; ///< 是否正在播放
     bool paused;  ///< 是否处于暂停状态
+
+    // --- 播放位置参数 --- //
+    qint64 currentPosition; ///< 当前播放位置
+    QTimer* positionTimer;  ///< 播放位置定时器
 
     // --- 播放参数 --- //
     int videoStreamIndex; ///< 视频流索引

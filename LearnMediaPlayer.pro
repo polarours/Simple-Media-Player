@@ -11,20 +11,20 @@ LIBS += -lffmpeg -lsdl2
 # Include path
 INCLUDEPATH += include
 
+# Header files
+HEADERS += \
+    include/Simple-Media-Player/core/MediaPlayer.h \
+    include/Simple-Media-Player/modules/player/PlayerController.h \
+    include/Simple-Media-Player/modules/ui/MainWindow.h \
+    include/Simple-Media-Player/modules/utils/Utils.h
+
 # Source files
 SOURCES += \
     src/main.cpp \
-    src/MainWindow.cpp \
-    src/PlayerController.cpp \
-    src/MediaPlayer.cpp \
-    src/FFmpegHelper.cpp
-
-# Header files
-HEADERS += \
-    include/MainWindow.h \
-    include/PlayerController.h \
-    include/MediaPlayer.h \
-    include/FFmpegHelper.h
+    src/core/MediaPlayer.cpp \
+    src/modules/player/PlayerController.cpp \
+    src/modules/ui/MainWindow.cpp \
+    src/modules/utils/Utils.cpp
 
 # UI files (if any)
 FORMS +=

@@ -8,7 +8,7 @@
  * @date   : 2025/08/29
  ********************************************************************************/
 
-#include "PlayerController.h"
+#include "../../../include/Simple-Media-Player/modules/player/PlayerController.h"
 #include <QVideoWidget>
 #include <QUrl>
 #include <QAudioOutput>

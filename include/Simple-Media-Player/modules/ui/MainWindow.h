@@ -21,7 +21,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 
-// 前向声明
+// --- 前向声明 --- //
 class QVideoWidget;
 class PlayerController;
 
@@ -54,7 +54,7 @@ private slots:
      *
      * 如果当前正在播放，则暂停播放；如果当前处于暂停状态，则继续播放。
      */
-    void playPause();
+    void playConvert();
 
     /**
      * @brief 停止媒体文件的播放。
@@ -68,7 +68,7 @@ private slots:
      *
      * @param position 要跳转到的位置，以毫秒为单位。
      */
-    void seek(int position);
+    void seek(qint64 position);
 
     /**
      * @brief 媒体文件时长改变时的处理函数。

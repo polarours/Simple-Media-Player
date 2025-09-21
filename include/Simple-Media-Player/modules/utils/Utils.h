@@ -13,7 +13,7 @@
 
 #include <QString>
 
-class FFmpegUtils
+class Utils
 {
 public:
     /**

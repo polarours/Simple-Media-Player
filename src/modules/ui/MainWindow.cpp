@@ -8,8 +8,8 @@
  * @date   : 2025/08/29
  ********************************************************************************/
 
-#include "MainWindow.h"
-#include "PlayerController.h"
+#include "Simple-Media-Player/modules/ui/MainWindow.h"
+#include "Simple-Media-Player/modules/player/PlayerController.h"
 #include <QApplication>
 #include <QMenuBar>
 #include <QMenu>
@@ -28,7 +28,7 @@
  */
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , playerController(new PlayerController(this)) ///< 创建播放器控制器
+    , playerController(new PlayerController(this))
 {
     setupUI();
     setupConnections();
@@ -53,20 +53,20 @@ MainWindow::~MainWindow()
  */
 void MainWindow::setupUI()
 {
-    // Central widget
+    // --- Central widget --- //
     centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
 
-    // Video widget
+    // --- Video widget --- //
     videoWidget = new QVideoWidget(this);
     playerController->setVideoOutput(videoWidget);
 
-    // Control buttons
+    // --- Control buttons --- //
     openButton = new QPushButton(tr("Open"), this);
-    playButton = new QPushButton(tr("Play"), this);
+    playButton = new QPushButton(tr("Play/Pause"), this);
     stopButton = new QPushButton(tr("Stop"), this);
 
-    // Sliders
+    // --- Sliders --- //
     seekSlider = new QSlider(Qt::Horizontal, this);
     seekSlider->setRange(0, 0);
 
@@ -74,15 +74,15 @@ void MainWindow::setupUI()
     volumeSlider->setRange(0, 100);
     volumeSlider->setValue(50);
 
-    // Time label
+    // --- Time label --- //
     timeLabel = new QLabel(tr("00:00 / 00:00"), this);
 
-    // Layouts
+    // --- Layouts --- //
     QVBoxLayout* mainLayout = new QVBoxLayout;
     QHBoxLayout* controlLayout = new QHBoxLayout;
     QHBoxLayout* sliderLayout = new QHBoxLayout;
 
-    // Assemble layouts
+    // --- Assemble layouts --- //
     mainLayout->addWidget(videoWidget);
     mainLayout->addLayout(sliderLayout);
     mainLayout->addLayout(controlLayout);
@@ -97,7 +97,7 @@ void MainWindow::setupUI()
 
     centralWidget->setLayout(mainLayout);
 
-    // Create menu bar
+    // --- Create menu bar --- //
     QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
     QAction* openAction = fileMenu->addAction(tr("&Open..."));
     openAction->setShortcut(QKeySequence::Open);
@@ -105,13 +105,13 @@ void MainWindow::setupUI()
     QAction* quitAction = fileMenu->addAction(tr("&Quit"));
     quitAction->setShortcut(QKeySequence::Quit);
 
-    // Create toolbar
+    // --- Create toolbar --- //
     QToolBar* toolbar = addToolBar(tr("Playback"));
     toolbar->addAction(openAction);
     toolbar->addWidget(playButton);
     toolbar->addWidget(stopButton);
 
-    // Connect menu actions
+    // --- Connect menu actions --- //
     connect(openAction, &QAction::triggered, this, &MainWindow::openFile);
     connect(quitAction, &QAction::triggered, qApp, &QApplication::quit);
 }
@@ -123,16 +123,16 @@ void MainWindow::setupUI()
  */
 void MainWindow::setupConnections()
 {
-    // Button connections
+    // --- Button connections --- //
     connect(openButton, &QPushButton::clicked, this, &MainWindow::openFile);
-    connect(playButton, &QPushButton::clicked, this, &MainWindow::playPause);
+    connect(playButton, &QPushButton::clicked, this, &MainWindow::playConvert);
     connect(stopButton, &QPushButton::clicked, this, &MainWindow::stop);
 
-    // Slider connections
+    // --- Slider connections --- //
     connect(seekSlider, &QSlider::sliderMoved, this, &MainWindow::seek);
     connect(volumeSlider, &QSlider::valueChanged, playerController, &PlayerController::setVolume);
 
-    // Player connections
+    // --- Player connections --- //
     connect(playerController, &PlayerController::durationChanged, this, &MainWindow::durationChanged);
     connect(playerController, &PlayerController::positionChanged, this, &MainWindow::positionChanged);
 }
@@ -156,7 +156,7 @@ void MainWindow::openFile()
  *
  * 该函数负责播放/暂停媒体。
  */
-void MainWindow::playPause()
+void MainWindow::playConvert()
 {
     if (playerController->isPlaying()) {
         playerController->pause();
@@ -183,7 +183,7 @@ void MainWindow::stop()
  *
  * @param position  播放位置。
  */
-void MainWindow::seek(int position)
+void MainWindow::seek(qint64 position)
 {
     playerController->setPosition(position);
 }

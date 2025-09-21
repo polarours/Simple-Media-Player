@@ -9,8 +9,9 @@
  ********************************************************************************/
 
 #include <QApplication>
-#include "MainWindow.h"
-#include "FFmpegUtils.h"
+
+#include "Simple-Media-Player/modules/ui/MainWindow.h"
+#include "Simple-Media-Player/modules/utils/Utils.h"
 
 /**
  * @brief 程序入口。
@@ -27,12 +28,12 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     // 设置应用程序信息
-    app.setApplicationName("Learn Media Player");
-    app.setApplicationVersion("1.0");
+    app.setApplicationName("Simple-Media-Player");
+    app.setApplicationVersion("1.0.0");
     app.setOrganizationName("Simple-Media-Player");
 
-    // 初始
-    FFmpegUtils::initializeFFmpeg();
+    // 初始化FFmpeg
+    Utils::initializeFFmpeg();
 
     // 创建主窗口
     MainWindow window;
