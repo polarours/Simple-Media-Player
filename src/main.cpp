@@ -10,15 +10,11 @@
 
 #include <QApplication>
 
-#include "Simple-Media-Player/modules/ui/MainWindow.h"
-#include "Simple-Media-Player/modules/utils/Utils.h"
+#include "ui/MainWindow.h"
+#include "utils/Utils.h"
 
 /**
  * @brief 程序入口。
- *
- * @param argc 参数个数
- * @param argv 参数列表
- * @return  int 程序退出码
  *
  * 该函数是程序的入口函数，负责初始化程序环境，创建主窗口，并启动程序。
  */
@@ -28,12 +24,12 @@ int main(int argc, char *argv[])
     QApplication app(argc, argv);
 
     // 设置应用程序信息
-    app.setApplicationName("Simple-Media-Player");
+    app.setApplicationName("AuroraPlayer");
     app.setApplicationVersion("1.0.0");
-    app.setOrganizationName("Simple-Media-Player");
+    app.setOrganizationName("AuroraPlayer");
 
     // 初始化FFmpeg
-    Utils::initializeFFmpeg();
+    AuroraPlayer::Utils::initializeFFmpeg();
 
     // 创建主窗口
     MainWindow window;

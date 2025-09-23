@@ -1,10 +1,10 @@
-# Simple Media Player
+# AuroraPlayer
 
 一个基于 Qt6 和 FFmpeg 的简易音视频播放器，用于学习和理解多媒体播放的基本原理和实现方式。
 
 ## 项目简介
 
-Simple-Media-Player 是一个使用 C++ 编写的本地媒体播放器项目，旨在演示如何使用 Qt6 和 FFmpeg 构建一个功能完整的媒体播放器。该项目适合多媒体开发初学者、C++ 开发者以及对 Qt 和 FFmpeg 集成感兴趣的技术人员学习和参考。
+AuroraPlayer 是一个使用 C++ 编写的本地媒体播放器项目，旨在演示如何使用 Qt6 和 FFmpeg 构建一个功能完整的媒体播放器。该项目适合多媒体开发初学者、C++ 开发者以及对 Qt 和 FFmpeg 集成感兴趣的技术人员学习和参考。
 
 ## 功能特性
 
@@ -14,6 +14,7 @@ Simple-Media-Player 是一个使用 C++ 编写的本地媒体播放器项目，�
   - 停止播放
   - 进度条拖拽定位
   - 音量控制
+- 播放列表管理功能
 - 使用 Qt6 构建图形用户界面
 - 使用 FFmpeg 进行音视频解码
 - 使用 Qt Multimedia 进行音频输出
@@ -25,7 +26,8 @@ Simple-Media-Player 是一个使用 C++ 编写的本地媒体播放器项目，�
 1. **MainWindow** - 主窗口类，负责管理用户界面元素和交互逻辑
 2. **PlayerController** - 播放控制器，协调播放逻辑
 3. **MediaPlayer** - 媒体播放核心类，集成 FFmpeg 进行音视频解码
-4. **Utils** - 工具类，提供初始化和错误处理功能
+4. **PlaylistManager** - 播放列表管理类，负责管理播放列表
+5. **Utils** - 工具类，提供初始化和错误处理功能
 
 ### 技术栈
 
@@ -42,7 +44,7 @@ Simple-Media-Player 是一个使用 C++ 编写的本地媒体播放器项目，�
 - Qt6 开发环境
 - FFmpeg 开发库
 - SDL2 开发库
-- CMake 4.0+
+- CMake 3.16+
 
 ### Ubuntu/Debian 系统依赖安装
 
@@ -55,7 +57,7 @@ sudo apt-get install qt6-base-dev qt6-tools-dev libqt6multimedia6 libqt6multimed
 ### 构建步骤
 
 ```bash
-cd Simple-Media-Player
+cd AuroraPlayer
 mkdir build && cd build
 cmake ..
 make -j$(nproc)
@@ -64,7 +66,7 @@ make -j$(nproc)
 ### 运行程序
 
 ```bash
-./Simple-Media-Player
+./AuroraPlayer
 ```
 
 ## 使用说明
@@ -74,34 +76,34 @@ make -j$(nproc)
 3. 使用停止按钮停止播放
 4. 拖动进度条跳转到指定位置
 5. 调整音量滑块控制播放音量
+6. 使用播放列表功能管理多个媒体文件
 
 ## 项目结构
 
 ```
-Simple-Media-Player/
+AuroraPlayer/
 ├── CMakeLists.txt                     # CMake 构建配置文件
-├── include/                           # 头文件目录
-│   └── Simple-Media-Player/           # 主包含目录
-│       ├── core/                      # 核心模块
-│       │   └── MediaPlayer.h          # 媒体播放器类头文件
-│       └── modules/                   # 模块目录
-│           ├── player/                # 播放器模块
-│           │   └── PlayerController.h # 播放控制器类头文件
-│           ├── ui/                    # 用户界面模块
-│           │   └── MainWindow.h       # 主窗口类头文件
-│           └── utils/                 # 工具模块
-│               └── Utils.h            # 工具类头文件
+├── AuroraPlayer.pro                   # Qt Creator 项目文件
 ├── src/                               # 源文件目录
-│   ├── core/                          # 核心模块实现
-│   │   └── MediaPlayer.cpp            # 媒体播放器类实现
 │   ├── main.cpp                       # 程序入口文件
-│   └── modules/                       # 模块实现目录
-│       ├── player/                    # 播放器模块实现
-│       │   └── PlayerController.cpp   # 播放控制器类实现
-│       ├── ui/                        # 用户界面模块实现
-│       │   └── MainWindow.cpp         # 主窗口类实现
-│       └── utils/                     # 工具模块实现
-│           └── Utils.cpp              # 工具类实现
+│   ├── core/                          # 核心模块
+│   │   ├── MediaPlayer.h              # 媒体播放器类头文件
+│   │   └── MediaPlayer.cpp            # 媒体播放器类实现
+│   ├── player/                        # 播放器模块
+│   │   ├── PlayerController.h         # 播放控制器类头文件
+│   │   ├── PlayerController.cpp       # 播放控制器类实现
+│   │   ├── PlaylistManager.h          # 播放列表管理类头文件
+│   │   └── PlaylistManager.cpp        # 播放列表管理类实现
+│   ├── ui/                            # 用户界面模块
+│   │   ├── MainWindow.h               # 主窗口类头文件
+│   │   ├── MainWindow.cpp             # 主窗口类实现
+│   │   └── MainWindow.ui              # UI界面文件
+│   └── utils/                         # 工具模块
+│       ├── Utils.h                    # 工具类头文件
+│       └── Utils.cpp                  # 工具类实现
+├── include/                           # 公共头文件目录
+│   ├── CommonState.h                  # 公共状态定义
+│   └── CommonUtils.h                  # 公共工具定义
 └── README.md                          # 项目说明文档
 ```
 
