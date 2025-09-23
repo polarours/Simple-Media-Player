@@ -77,6 +77,7 @@ void PlayerController::setMedia(const QString& mediaPath)
 
 /**
  * @brief 获取播放列表管理器
+ *
  * @return PlaylistManager* 播放列表管理器实例
  */
 PlaylistManager* PlayerController::playlistManager() const
@@ -165,6 +166,7 @@ void PlayerController::setVolume(int volume)
 
 /**
  * @brief 获取当前音量
+ *
  * @return int 当前音量（0-100）
  */
 int PlayerController::volume() const
@@ -196,6 +198,7 @@ void PlayerController::previousMedia()
 
 /**
  * @brief 处理当前媒体文件变化
+ *
  * @param mediaPath 新的媒体文件路径
  */
 void PlayerController::onCurrentMediaChanged(const QString& mediaPath)

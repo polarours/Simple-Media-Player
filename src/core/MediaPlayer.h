@@ -35,6 +35,7 @@ class MediaPlayer : public QObject
 public:
     /**
      * @brief 构造函数
+     *
      * @param parent 父对象
      */
     explicit MediaPlayer(QObject* parent = nullptr);
@@ -74,6 +75,7 @@ public:
 
     /**
      * @brief 获取当前播放状态
+     *
      * @return AuroraPlayer::State::PlayerState 当前播放状态
      */
     AuroraPlayer::State::PlayerState state() const;
@@ -154,6 +156,7 @@ private:
 
     /**
      * @brief 设置播放状态
+     *
      * @param state 新的播放状态
      */
     void setState(AuroraPlayer::State::PlayerState state);

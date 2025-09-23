@@ -288,6 +288,7 @@ void MediaPlayer::updatePosition()
 
 /**
  * @brief 设置播放状态
+ *
  * @param state 新的播放状态
  */
 void MediaPlayer::setState(AuroraPlayer::State::PlayerState state)

@@ -28,6 +28,7 @@ class PlayerController : public QObject
 public:
     /**
      * @brief 构造函数
+     *
      * @param parent 父对象
      */
     explicit PlayerController(QObject* parent = nullptr);
@@ -53,6 +54,7 @@ public:
 
     /**
      * @brief 获取播放列表管理器
+     *
      * @return PlaylistManager* 播放列表管理器实例
      */
     PlaylistManager* playlistManager() const;
@@ -61,7 +63,7 @@ public:
      * @brief 获取媒体是否正在播放。
      *
      * @return true  媒体正在播放。
-     * @return false 媒体没有播放。
+     * @return false 媒体未播放。
      */
     bool isPlaying() const;
 
@@ -81,6 +83,7 @@ public:
 
     /**
      * @brief 获取当前音量
+     *
      * @return int 当前音量（0-100）
      */
     int volume() const;
@@ -159,6 +162,7 @@ signals:
     
     /**
      * @brief 播放状态变化信号
+     *
      * @param state 播放状态
      */
     void playbackStateChanged(QMediaPlayer::PlaybackState state);
@@ -171,16 +175,14 @@ signals:
 private slots:
     /**
      * @brief 处理当前媒体文件变化
+     *
      * @param mediaPath 新的媒体文件路径
      */
     void onCurrentMediaChanged(const QString& mediaPath);
 
 private:
-
-
-private:
-    QMediaPlayer* mediaPlayer;       ///< 媒体播放器
-    QAudioOutput* audioOutput;       ///< 音频输出
+    QMediaPlayer* mediaPlayer;          ///< 媒体播放器
+    QAudioOutput* audioOutput;          ///< 音频输出
     PlaylistManager* m_playlistManager; ///< 播放列表管理器
 };
 

@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow
 public:
     /**
      * @brief 构造函数，初始化主窗口及其UI组件。
+     *
      * @param parent 父窗口指针，默认为 nullptr。
      */
     explicit MainWindow(QWidget* parent = nullptr);
@@ -102,6 +103,7 @@ private slots:
 
     /**
      * @brief 处理播放列表项双击事件
+     *
      * @param item 被双击的项
      */
     void onPlaylistItemDoubleClicked(QListWidgetItem* item);
